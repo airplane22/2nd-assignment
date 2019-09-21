@@ -4,13 +4,94 @@ window.onload = () => {
 	const practiceOne = document.createElement("p");
 	const practiceTwo = document.createElement("p");
 
-	practiceOne.innerText = `지정한 숫자만큼 아날로그 초침이 시계 방향으로 설정된 다음 
-        시작 버튼을 누르면 1초마다 시계 반대 방향으로 움직여서 
-        결국 12시 방향을 가르키며 종료되는 아날로그 타이머`;
-	practiceTwo.innerText = `지정한 숫자만큼 타이머가 표시되고 
-        시작 버튼을 누르면 1초씩 줄어들고 
-        0초에서 정지하는 디지털 타이머`;
-
 	testDiv.append(practiceOne, practiceTwo);
 	app.prepend(testDiv);
+
+	//--------------------------
+
+	const HIDING_CN = "hiding";
+
+    const timer = document.querySelector(".timer");
+    timer.innerHTML = "";
+	const anlgtimerContainer = document.querySelector(".anlg-clock");
+	anlgtimerContainer.innerHTML="";
+	const secondHand = document.createElement("img");
+	secondHand.src = "http://images.webskills.kr/etc/s.png";
+
+	anlgtimerContainer.appendChild(secondHand);
+
+	const timerContainer = document.querySelector(".dgt-clock");
+    timerContainer.innerHTML="";
+	const timerTitle = document.createElement("h1");
+
+    const btnDiv = document.createElement("div");
+    const plusBtn = document.createElement("button");
+    const minusBtn = document.createElement("button");
+    const startBtn = document.createElement("button");
+
+    timerContainer.appendChild(timerTitle);
+    timerContainer.appendChild(btnDiv);
+    btnDiv.appendChild(plusBtn);
+    btnDiv.appendChild(minusBtn);
+    btnDiv.appendChild(startBtn);
+
+    let time = `00`;
+
+    timerTitle.innerText = time;
+    plusBtn.innerText = `+`;
+    minusBtn.innerText = `-`;
+    startBtn.innerText = `start`;
+
+
+	function plusSeconds(){
+    	let seconds = parseInt(time);
+        if (seconds !== 60){
+        	seconds += 1;
+        	degree = 6*seconds;
+        	secondHand.style.transform = `rotate(${degree}deg)`;
+		}
+    	time = `${seconds < 10 ? `0${seconds}` : seconds}`;
+        timerTitle.innerText = time;
+	}
+
+	function minusSeconds(){
+    	let seconds = parseInt(time);
+    	if (seconds !== 0){
+    		seconds -= 1;
+    		degree = 6*seconds;
+        	secondHand.style.transform = `rotate(${degree}deg)`;
+		}
+    	time = `${seconds < 10 ? `0${seconds}` : seconds}`;
+        timerTitle.innerText = time;
+	}
+
+	function countSeconds(){
+		let seconds = parseInt(time);
+    	if (seconds !== 0){
+    		seconds -= 1;
+    		degree = 6*seconds;
+        	secondHand.style.transform = `rotate(${degree}deg)`;
+         	time = `${seconds < 10 ? `0${seconds}` : seconds}`;
+			timerTitle.innerText = time;
+    		return;
+		} else {
+    		btnDiv.classList.remove(HIDING_CN);
+    		clearInterval(countTime);
+		}
+	}
+
+	function startTimer(){
+		btnDiv.classList.add(HIDING_CN);
+		window.countTime = setInterval(countSeconds, 1000); //1초마다
+
+	}
+
+	function loadTimer() {
+    	plusBtn.addEventListener("click", plusSeconds);
+    	minusBtn.addEventListener("click", minusSeconds);
+    	startBtn.addEventListener("click", startTimer);
+	}
+
+	loadTimer();
+
 };
