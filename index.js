@@ -34,6 +34,7 @@ window.onload = () => {
     btnDiv.appendChild(plusBtn);
     btnDiv.appendChild(minusBtn);
     btnDiv.appendChild(startBtn);
+    timerContainer.style.textAlign = 'center';
 
     let time = `00`;
 
@@ -75,13 +76,17 @@ window.onload = () => {
 			timerTitle.innerText = time;
     		return;
 		} else {
-    		btnDiv.classList.remove(HIDING_CN);
+    		plusBtn.disabled = false;
+		    minusBtn.disabled = false;
+		    startBtn.disabled = false;
     		clearInterval(countTime);
 		}
 	}
 
 	function startTimer(){
-		btnDiv.classList.add(HIDING_CN);
+		plusBtn.disabled = true;
+		minusBtn.disabled = true;
+		startBtn.disabled = true;
 		window.countTime = setInterval(countSeconds, 1000); //1초마다
 
 	}
